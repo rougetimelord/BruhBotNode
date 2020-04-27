@@ -43,9 +43,10 @@ let send_message = async (member) => {
     console.log();
     key_gen(member.guild).then(async (key) => {
         if (key in data) {
-            await client.channels
-                .fetch(data[key])
-                .send(Math.floor(Math.random() * 2) == 0 ? "bruh" : "Bruh");
+            let channel = client.channels.fetch(data[key]);
+            await channel.send(
+                Math.floor(Math.random() * 2) == 0 ? "bruh" : "Bruh"
+            );
         } else {
             throw new Error(`No channel ID set in server ${member.guild.name}`);
         }
