@@ -17,6 +17,22 @@ let key_gen = (guild) => {
   });
 };
 
+let json_dump = () => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(
+      "./data.json",
+      JSON.stringify(data, null, 4),
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      }
+    );
+  });
+};
+
 client.once("ready", () => {
   console.log(
     `Logged in as: ${client.user.username} with id: ${client.user.id}`
@@ -48,7 +64,7 @@ client.on("message", async (message) => {
             try {
               await json_dump();
             } catch (err) {
-              reject(err);
+              throw new Error(err);
             }
             await message.channel.send(
               `Set message channel to ${message.channel}!`
