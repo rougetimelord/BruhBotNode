@@ -61,6 +61,15 @@ let send_message = async (member) => {
     });
 };
 
+client.on("guildCreate", async (guild) => {
+    console.log(`Added to Guild: ${guild.name}`);
+    if (guild.systemChannel) {
+        await guild.systemChannel.send(
+            "Hi, thanks for adding BruhBot! Use `!set` to set which channel to send to."
+        );
+    }
+});
+
 client.on("guildMemberRemove", async (member) => {
     send_message(member).catch((reason) => {
         console.error(`Failed: ${reason}`);
