@@ -40,20 +40,35 @@ client.once("ready", () => {
 });
 
 let send_message = async (member) => {
-    console.log();
     key_gen(member.guild).then(async (key) => {
         if (key in data) {
-            let channel = client.channels.fetch(data[key]);
-            await channel.send(
-                Math.floor(Math.random() * 2) == 0 ? "bruh" : "Bruh"
-            );
+            client.channels
+                .fetch(data[key])
+                .then(async (channel) => {
+                    console.log(
+                        `Sending a message in: ${channel}, in guild: ${member.guild.name}`
+                    );
+                    await channel.send(
+                        Math.floor(Math.random() * 2) == 0 ? "bruh" : "Bruh"
+                    );
+                })
+                .catch((reason) => {
+                    throw new Error(reason);
+                });
         } else {
             throw new Error(`No channel ID set in server ${member.guild.name}`);
         }
     });
 };
 
+client.on("guildMemberRemove", async (member) => {
+    send_message(member).catch((reason) => {
+        console.error(`Failed: ${reason}`);
+    });
+});
+
 client.on("message", async (message) => {
+    console.log("Message event dispatched");
     key_gen(message.guild)
         .then(
             async (key) => {
@@ -64,6 +79,9 @@ client.on("message", async (message) => {
                     ) {
                         data[key] = message.channel.id;
                         try {
+                            console.log(
+                                `Dumping json for: ${message.channel.name}, in Guild: ${message.guild.name}`
+                            );
                             await json_dump();
                         } catch (err) {
                             throw new Error(err);
