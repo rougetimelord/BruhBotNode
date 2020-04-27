@@ -70,6 +70,18 @@ client.on("guildCreate", async (guild) => {
     }
 });
 
+client.on("guildDelete", async (guild) => {
+    console.log(`Removed from Guild: ${guild.name}`);
+    key_gen(guild)
+        .then(async (key) => {
+            delete data[key];
+            await json_dump();
+        })
+        .catch((reason) => {
+            console.error(`Failed: ${reason}`);
+        });
+});
+
 client.on("guildMemberRemove", async (member) => {
     send_message(member).catch((reason) => {
         console.error(`Failed: ${reason}`);
@@ -79,42 +91,33 @@ client.on("guildMemberRemove", async (member) => {
 client.on("message", async (message) => {
     console.log("Message event dispatched");
     key_gen(message.guild)
-        .then(
-            async (key) => {
-                if (message.member.hasPermission("MANAGE_CHANNELS")) {
-                    if (
-                        message.content.match(setRegex) &&
-                        (!(key in data) || data[key] !== message.channel.id)
-                    ) {
-                        data[key] = message.channel.id;
-                        console
-                            .log(
-                                `Dumping json for: ${message.channel.name}, in Guild: ${message.guild.name}`
+        .then(async (key) => {
+            if (message.member.hasPermission("MANAGE_CHANNELS")) {
+                if (
+                    message.content.match(setRegex) &&
+                    (!(key in data) || data[key] !== message.channel.id)
+                ) {
+                    data[key] = message.channel.id;
+                    console
+                        .log(
+                            `Dumping json for: ${message.channel.name}, in Guild: ${message.guild.name}`
+                        )
+                        .then(json_dump)
+                        .then(
+                            message.channel.send(
+                                `Set message channel to ${message.channel}!`
                             )
-                            .then(json_dump)
-                            .catch((reason) => {
-                                throw new Error(err);
-                            });
-                        await message.channel.send(
-                            `Set message channel to ${message.channel}!`
-                        );
-                    } else if (
-                        message.content.match(testRegex) &&
-                        key in data
-                    ) {
-                        await send_message(message.member);
-                    }
+                        )
+                        .catch((reason) => {
+                            throw new Error(err);
+                        });
+                } else if (message.content.match(testRegex) && key in data) {
+                    await send_message(message.member);
                 }
-            },
-            (reason) => {
-                console.error(reason);
-                throw 0;
             }
-        )
+        })
         .catch((reason) => {
-            if (reason != 0) {
-                console.error(`Failed: ${reason}`);
-            }
+            console.error(`Failed: ${reason}`);
         });
 });
 
