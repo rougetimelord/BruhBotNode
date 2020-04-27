@@ -87,14 +87,14 @@ client.on("message", async (message) => {
                         (!(key in data) || data[key] !== message.channel.id)
                     ) {
                         data[key] = message.channel.id;
-                        try {
-                            console.log(
+                        console
+                            .log(
                                 `Dumping json for: ${message.channel.name}, in Guild: ${message.guild.name}`
-                            );
-                            await json_dump();
-                        } catch (err) {
-                            throw new Error(err);
-                        }
+                            )
+                            .then(json_dump)
+                            .catch((reason) => {
+                                throw new Error(err);
+                            });
                         await message.channel.send(
                             `Set message channel to ${message.channel}!`
                         );
