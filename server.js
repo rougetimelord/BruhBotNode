@@ -37,6 +37,9 @@ client.once("ready", () => {
     console.log(
         `Logged in as: ${client.user.username} with id: ${client.user.id}`
     );
+    client.user.setPresence({
+        activity: { type: "WATCHING", name: "for bruh moments" },
+    });
 });
 
 let send_message = async (member) => {
