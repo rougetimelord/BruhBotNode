@@ -1,11 +1,10 @@
 # Bruh Bot Node
 
-A node port of [bruh bot](https://github.com/rougetimelord/Bruh-Bot). Runs on Discord.js.
+A node port of [bruh bot](https://github.com/rougetimelord/Bruh-Bot). Runs on Discord.js. Built completely asynchronously.
 
 ## Usage
 
--   The invite link is [this](https://discordapp.com/api/oauth2/authorize?client_id=702644157692379267&permissions=67584&scope=bot)
--   The bot will message your guild's system channel with a setup message. If there is no system channel, use `!set` in a channel that is accessible to the bot.
+-   This bot is not hosted currently, and I have no plans to host this. If you want to add Bruh Bot use the link on the [main repo](https://github.com/rougetimelord/Bruh-Bot).
 
 ## Self Hosting
 
