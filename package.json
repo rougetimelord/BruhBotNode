@@ -1,15 +1,16 @@
 {
-  "name": "bruhbot",
-  "version": "0.1.0",
-  "description": "BruhBot but in node/js.",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "r0uge",
-  "license": "ISC",
-  "dependencies": {
-    "discord.js": "^12.2.0",
-    "express": "^4.17.1"
-  }
+    "name": "bruhbot",
+    "version": "0.1.0",
+    "description": "BruhBot but in node/js.",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "author": "r0uge",
+    "license": "ISC",
+    "dependencies": {
+        "discord.js": "^12.2.0",
+        "express": "^4.17.1"
+    }
 }
