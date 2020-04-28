@@ -98,11 +98,10 @@ client.on("message", async (message) => {
                     (!(key in data) || data[key] !== message.channel.id)
                 ) {
                     data[key] = message.channel.id;
-                    console
-                        .log(
-                            `Dumping json for: ${message.channel.name}, in Guild: ${message.guild.name}`
-                        )
-                        .then(json_dump)
+                    console.log(
+                        `Dumping json for: ${message.channel.name}, in Guild: ${message.guild.name}`
+                    );
+                    json_dump()
                         .then(
                             message.channel.send(
                                 `Set message channel to ${message.channel}!`
