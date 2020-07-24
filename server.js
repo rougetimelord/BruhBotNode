@@ -7,6 +7,8 @@ var data = require("./data.json");
 const setRegex = /^!set/i;
 const testRegex = /^!test/i;
 const delRegex = /^!deltoggle/i;
+const bruhRegex = /^!bruh/i;
+const helpRegex = /^!bhelp/i;
 
 let key_gen = (guild) => {
     return new Promise((resolve, reject) => {
@@ -120,7 +122,10 @@ client.on("message", async (message) => {
     console.log("Message event dispatched");
     key_gen(message.guild)
         .then(async (key) => {
-            if (message.member.hasPermission("MANAGE_CHANNELS")) {
+            if (
+                message.member.hasPermission("MANAGE_CHANNELS") ||
+                message.author.id == process.env.ADMIN_ID
+            ) {
                 if (
                     message.content.match(setRegex) &&
                     (!data[key].channel ||
@@ -155,6 +160,18 @@ client.on("message", async (message) => {
                     );
                 }
             }
+            if (message.content.match(bruhRegex)) {
+                await message.channel.send(`${message.author} bruh`);
+            } else if (message.content.match(helpRegex)) {
+                await message.channel.send(`Hi I'm BruhBot!
+                My commands are:
+                \`\`\`!bhelp:      sends this message.
+                !bruh:       sends bruh back.
+                !set*:       sets the channel to send leave messages to.
+                !deltoggle*: toggles message delete messages.
+                !test*:      sends a test message.\`\`\`
+                * admin only commands`);
+            }
         })
         .catch((reason) => {
             console.error(`Failed: ${reason}`);
@@ -162,3 +179,4 @@ client.on("message", async (message) => {
 });
 
 client.login(process.env.TOKEN);
+console.log(`BruhBot Version: ${process.env.VERSION}`);
