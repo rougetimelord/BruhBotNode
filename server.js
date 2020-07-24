@@ -10,6 +10,9 @@ const delRegex = /^!deltoggle/i;
 const bruhRegex = /^!bruh/i;
 const helpRegex = /^!bhelp/i;
 
+const VERSION = "v0.3.0";
+console.log(`BruhBot Version: ${VERSION}`);
+
 let key_gen = (guild) => {
     return new Promise((resolve, reject) => {
         if (guild.id) {
@@ -179,4 +182,3 @@ client.on("message", async (message) => {
 });
 
 client.login(process.env.TOKEN);
-console.log(`BruhBot Version: ${process.env.VERSION}`);
